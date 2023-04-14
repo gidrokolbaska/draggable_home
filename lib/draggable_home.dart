@@ -9,6 +9,7 @@ class DraggableHome extends StatefulWidget {
 
   /// Leading: A widget to display before the toolbar's title.
   final Widget? leading;
+  final double? leadingWidth;
 
   /// Title: A Widget to display title in AppBar
   final Widget title;
@@ -86,6 +87,7 @@ class DraggableHome extends StatefulWidget {
   const DraggableHome(
       {Key? key,
       this.leading,
+      this.leadingWidth,
       required this.title,
       this.centerTitle = true,
       this.actions,
@@ -205,6 +207,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                   : !fullyCollapsed
                       ? const SizedBox()
                       : widget.leading,
+              leadingWidth: widget.leadingWidth ?? 56,
               actions: widget.alwaysShowLeadingAndAction
                   ? widget.actions
                   : !fullyCollapsed
