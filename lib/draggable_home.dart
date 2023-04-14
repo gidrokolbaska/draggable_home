@@ -228,6 +228,23 @@ class _DraggableHomeState extends State<DraggableHome> {
                 children: [
                   FlexibleSpaceBar(
                     background: Container(
+                      decoration: const BoxDecoration(
+                        // Box decoration takes a gradient
+                        gradient: LinearGradient(
+                          // Where the linear gradient begins and ends
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          // Add one stop for each color. Stops should increase from 0 to 1
+                          stops: [0, 0.33, 0.66, 1],
+                          colors: [
+                            // Colors are easy thanks to Flutter's Colors class.
+                            Color(0xff1F145D),
+                            Color(0xff6E50E1),
+                            Color(0xff50AFFF),
+                            Color(0xff28FC82),
+                          ],
+                        ),
+                      ),
                       margin: const EdgeInsets.only(bottom: 0.2),
                       child: fullyExpanded
                           ? (widget.expandedBody ?? const SizedBox())
