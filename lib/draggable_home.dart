@@ -257,12 +257,12 @@ class _DraggableHomeState extends State<DraggableHome> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: -1,
-                    left: 0,
-                    right: 0,
-                    child: roundedCorner(context),
-                  ),
+                  // Positioned(
+                  //   bottom: -1,
+                  //   left: 0,
+                  //   right: 0,
+                  //   child: roundedCorner(context),
+                  // ),
                   Positioned(
                     bottom: 0 + widget.curvedBodyRadius,
                     child: AnimatedContainer(
