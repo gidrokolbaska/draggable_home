@@ -293,7 +293,11 @@ class _DraggableHomeState extends State<DraggableHome> {
             );
           },
         ),
-        sliverList(context, appBarHeight + topPadding),
+        RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+            },
+            child: sliverList(context, appBarHeight + topPadding)),
       ],
     );
   }
