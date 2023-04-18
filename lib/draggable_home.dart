@@ -263,7 +263,6 @@ class _DraggableHomeState extends State<DraggableHome> {
                     right: 0,
                     child: roundedCorner(context),
                   ),
-                  Positioned(bottom: 0, child: RefreshProgressIndicator()),
                   Positioned(
                     bottom: 0 + widget.curvedBodyRadius,
                     child: AnimatedContainer(
@@ -320,12 +319,17 @@ class _DraggableHomeState extends State<DraggableHome> {
         [
           Stack(
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height -
-                    topHeight -
-                    bottomPadding,
-                color: widget.backgroundColor ??
-                    Theme.of(context).scaffoldBackgroundColor,
+              RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(const Duration(seconds: 1));
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height -
+                      topHeight -
+                      bottomPadding,
+                  color: widget.backgroundColor ??
+                      Theme.of(context).scaffoldBackgroundColor,
+                ),
               ),
               Column(
                 children: [
