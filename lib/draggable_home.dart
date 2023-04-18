@@ -257,12 +257,12 @@ class _DraggableHomeState extends State<DraggableHome> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   bottom: -1,
-                  //   left: 0,
-                  //   right: 0,
-                  //   child: roundedCorner(context),
-                  // ),
+                  Positioned(
+                    bottom: -1,
+                    left: 0,
+                    right: 0,
+                    child: roundedCorner(context),
+                  ),
                   Positioned(
                     bottom: 0 + widget.curvedBodyRadius,
                     child: AnimatedContainer(
@@ -274,13 +274,6 @@ class _DraggableHomeState extends State<DraggableHome> {
                           : fullyExpanded
                               ? 0
                               : kToolbarHeight,
-                      decoration: BoxDecoration(
-                        color: widget.backgroundColor ??
-                            Theme.of(context).scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.curvedBodyRadius),
-                        ),
-                      ),
                       width: MediaQuery.of(context).size.width,
                       child: fullyCollapsed
                           ? const SizedBox()
