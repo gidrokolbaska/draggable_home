@@ -274,6 +274,13 @@ class _DraggableHomeState extends State<DraggableHome> {
                           : fullyExpanded
                               ? 0
                               : kToolbarHeight,
+                      decoration: BoxDecoration(
+                        color: widget.backgroundColor ??
+                            Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(widget.curvedBodyRadius),
+                        ),
+                      ),
                       width: MediaQuery.of(context).size.width,
                       child: fullyCollapsed
                           ? const SizedBox()
