@@ -1,5 +1,6 @@
 library draggable_home;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -293,11 +294,8 @@ class _DraggableHomeState extends State<DraggableHome> {
             );
           },
         ),
-        RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(const Duration(seconds: 1));
-            },
-            child: sliverList(context, appBarHeight + topPadding)),
+        const CupertinoSliverRefreshControl(),
+        sliverList(context, appBarHeight + topPadding),
       ],
     );
   }
