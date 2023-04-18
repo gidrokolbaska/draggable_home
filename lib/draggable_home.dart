@@ -249,7 +249,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                       ),
                     ),
                     child: FlexibleSpaceBar(
-                      background: Container(
+                      title: Container(
                         margin: const EdgeInsets.only(bottom: 0.2),
                         child: fullyExpanded
                             ? (widget.expandedBody ?? const SizedBox())
@@ -319,17 +319,12 @@ class _DraggableHomeState extends State<DraggableHome> {
         [
           Stack(
             children: [
-              RefreshIndicator(
-                onRefresh: () async {
-                  await Future.delayed(const Duration(seconds: 1));
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height -
-                      topHeight -
-                      bottomPadding,
-                  color: widget.backgroundColor ??
-                      Theme.of(context).scaffoldBackgroundColor,
-                ),
+              Container(
+                height: MediaQuery.of(context).size.height -
+                    topHeight -
+                    bottomPadding,
+                color: widget.backgroundColor ??
+                    Theme.of(context).scaffoldBackgroundColor,
               ),
               Column(
                 children: [
