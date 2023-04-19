@@ -83,6 +83,7 @@ class DraggableHome extends StatefulWidget {
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   final ScrollPhysics? physics;
+  final ScrollController controller;
 
   /// This will create DraggableHome.
   const DraggableHome(
@@ -101,6 +102,7 @@ class DraggableHome extends StatefulWidget {
       this.appBarColor,
       this.curvedBodyRadius = 20,
       required this.body,
+      required this.controller,
       this.drawer,
       this.fullyStretchable = false,
       this.stretchTriggerOffset = 200,
@@ -169,8 +171,14 @@ class _DraggableHomeState extends State<DraggableHome> {
           }
           return false;
         },
-        child: sliver(context, appBarHeight, fullyExpandedHeight,
-            expandedHeight, topPadding),
+        child: sliver(
+          context,
+          appBarHeight,
+          fullyExpandedHeight,
+          expandedHeight,
+          topPadding,
+          widget.controller,
+        ),
       ),
       bottomSheet: widget.bottomSheet,
       bottomNavigationBar: widget.bottomNavigationBar,
@@ -186,9 +194,11 @@ class _DraggableHomeState extends State<DraggableHome> {
     double fullyExpandedHeight,
     double expandedHeight,
     double topPadding,
+    ScrollController controller,
   ) {
     return CustomScrollView(
       physics: widget.physics ?? const BouncingScrollPhysics(),
+      controller: controller,
       slivers: [
         StreamBuilder<List<bool>>(
           stream: CombineLatestStream.list<bool>([
