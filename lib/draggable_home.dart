@@ -217,7 +217,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                       : widget.actions,
               elevation: 0,
               pinned: true,
-              stretch: true,
+              stretch: false,
               centerTitle: widget.centerTitle,
               title: widget.alwaysShowTitle
                   ? widget.title
@@ -250,6 +250,8 @@ class _DraggableHomeState extends State<DraggableHome> {
                       ),
                     ),
                     child: FlexibleSpaceBar(
+                      collapseMode: CollapseMode.none,
+                      stretchModes: const [],
                       background: Container(
                         margin: const EdgeInsets.only(bottom: 0.2),
                         child: fullyExpanded
@@ -294,7 +296,6 @@ class _DraggableHomeState extends State<DraggableHome> {
             );
           },
         ),
-        const CupertinoSliverRefreshControl(),
         sliverList(context, appBarHeight + topPadding),
       ],
     );
