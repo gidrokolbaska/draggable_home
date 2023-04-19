@@ -227,7 +227,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                       : widget.actions,
               elevation: 0,
               pinned: true,
-              stretch: false,
+              stretch: true,
               centerTitle: widget.centerTitle,
               title: widget.alwaysShowTitle
                   ? widget.title
