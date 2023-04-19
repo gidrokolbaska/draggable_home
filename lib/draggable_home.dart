@@ -261,7 +261,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                     ),
                     child: FlexibleSpaceBar(
                       collapseMode: CollapseMode.none,
-                      stretchModes: const [],
+                      stretchModes: const [StretchMode.zoomBackground],
                       background: Container(
                         margin: const EdgeInsets.only(bottom: 0.2),
                         child: fullyExpanded
