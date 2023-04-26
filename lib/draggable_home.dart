@@ -85,6 +85,8 @@ class DraggableHome extends StatefulWidget {
   final ScrollPhysics? physics;
   final Widget? Function(bool isScrolled)? leadingBuilder;
   final List<Widget>? Function(bool isScrolled)? trailingBuilder;
+  final MainAxisAlignment bodyMainAxisAlignment;
+  final CrossAxisAlignment bodyCrossAxisAlignment;
 
   /// This will create DraggableHome.
   const DraggableHome(
@@ -92,6 +94,8 @@ class DraggableHome extends StatefulWidget {
       this.leading,
       required this.leadingBuilder,
       required this.trailingBuilder,
+      required this.bodyMainAxisAlignment,
+      required this.bodyCrossAxisAlignment,
       this.leadingWidth,
       required this.title,
       this.centerTitle = true,
@@ -324,6 +328,8 @@ class _DraggableHomeState extends State<DraggableHome> {
                     Theme.of(context).scaffoldBackgroundColor,
               ),
               Column(
+                mainAxisAlignment: widget.bodyMainAxisAlignment,
+                crossAxisAlignment: widget.bodyCrossAxisAlignment,
                 children: [
                   expandedUpArrow(),
                   //Body
