@@ -1,6 +1,7 @@
 library draggable_home;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DraggableHome extends StatefulWidget {
@@ -82,11 +83,13 @@ class DraggableHome extends StatefulWidget {
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   final ScrollPhysics? physics;
+  final Widget? Function(bool isScrolled)? leadingBuilder;
 
   /// This will create DraggableHome.
   const DraggableHome(
       {Key? key,
       this.leading,
+      this.leadingBuilder,
       this.leadingWidth,
       required this.title,
       this.centerTitle = true,
@@ -204,79 +207,84 @@ class _DraggableHomeState extends State<DraggableHome> {
             final bool fullyCollapsed = streams[0];
             final bool fullyExpanded = streams[1];
 
-            return SliverAppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: widget.appBarColor,
-              leading: widget.alwaysShowLeadingAndAction
-                  ? widget.leading
-                  : !fullyCollapsed
-                      ? const SizedBox()
-                      : widget.leading,
-              leadingWidth: widget.leadingWidth ?? 56,
-              actions: widget.alwaysShowLeadingAndAction
-                  ? widget.actions
-                  : !fullyCollapsed
-                      ? []
-                      : widget.actions,
-              elevation: 0,
-              pinned: true,
-              stretch: true,
-              centerTitle: widget.centerTitle,
-              title: widget.alwaysShowTitle
-                  ? widget.title
-                  : AnimatedOpacity(
-                      opacity: fullyCollapsed ? 1 : 0,
-                      duration: const Duration(milliseconds: 100),
-                      child: widget.title,
-                    ),
-              collapsedHeight: appBarHeight,
-              expandedHeight:
-                  fullyExpanded ? fullyExpandedHeight : expandedHeight,
-              flexibleSpace: Stack(
-                children: [
-                  FlexibleSpaceBar(
-                    collapseMode: CollapseMode.none,
-                    stretchModes: const [StretchMode.zoomBackground],
-                    background: Container(
-                      margin: const EdgeInsets.only(bottom: 0.2),
-                      child: fullyExpanded
-                          ? (widget.expandedBody ?? const SizedBox())
-                          : widget.headerWidget,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -1,
-                    left: 0,
-                    right: 0,
-                    child: roundedCorner(context),
-                  ),
-                  Positioned(
-                    bottom: 0 + widget.curvedBodyRadius,
-                    child: AnimatedContainer(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      curve: Curves.easeInOutCirc,
-                      duration: const Duration(milliseconds: 100),
-                      height: fullyCollapsed
-                          ? 0
-                          : fullyExpanded
-                              ? 0
-                              : kToolbarHeight,
-                      width: MediaQuery.of(context).size.width,
-                      child: fullyCollapsed
+            return SliverLayoutBuilder(
+              builder: (BuildContext context, SliverConstraints constraints) {
+                final scrolled = constraints.scrollOffset > appBarHeight;
+                return SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  backgroundColor: widget.appBarColor,
+                  leading: widget.alwaysShowLeadingAndAction
+                      ? widget.leadingBuilder!(scrolled)
+                      : !fullyCollapsed
                           ? const SizedBox()
-                          : fullyExpanded
+                          : widget.leading,
+                  leadingWidth: widget.leadingWidth ?? 56,
+                  actions: widget.alwaysShowLeadingAndAction
+                      ? widget.actions
+                      : !fullyCollapsed
+                          ? []
+                          : widget.actions,
+                  elevation: 0,
+                  pinned: true,
+                  stretch: true,
+                  centerTitle: widget.centerTitle,
+                  title: widget.alwaysShowTitle
+                      ? widget.title
+                      : AnimatedOpacity(
+                          opacity: fullyCollapsed ? 1 : 0,
+                          duration: const Duration(milliseconds: 100),
+                          child: widget.title,
+                        ),
+                  collapsedHeight: appBarHeight,
+                  expandedHeight:
+                      fullyExpanded ? fullyExpandedHeight : expandedHeight,
+                  flexibleSpace: Stack(
+                    children: [
+                      FlexibleSpaceBar(
+                        collapseMode: CollapseMode.none,
+                        stretchModes: const [StretchMode.zoomBackground],
+                        background: Container(
+                          margin: const EdgeInsets.only(bottom: 0.2),
+                          child: fullyExpanded
+                              ? (widget.expandedBody ?? const SizedBox())
+                              : widget.headerWidget,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -1,
+                        left: 0,
+                        right: 0,
+                        child: roundedCorner(context),
+                      ),
+                      Positioned(
+                        bottom: 0 + widget.curvedBodyRadius,
+                        child: AnimatedContainer(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          curve: Curves.easeInOutCirc,
+                          duration: const Duration(milliseconds: 100),
+                          height: fullyCollapsed
+                              ? 0
+                              : fullyExpanded
+                                  ? 0
+                                  : kToolbarHeight,
+                          width: MediaQuery.of(context).size.width,
+                          child: fullyCollapsed
                               ? const SizedBox()
-                              : widget.headerBottomBar ?? Container(),
-                    ),
-                  )
-                ],
-              ),
-              stretchTriggerOffset: widget.stretchTriggerOffset,
-              onStretchTrigger: widget.fullyStretchable
-                  ? () async {
-                      if (!fullyExpanded) isFullyExpanded.add(true);
-                    }
-                  : null,
+                              : fullyExpanded
+                                  ? const SizedBox()
+                                  : widget.headerBottomBar ?? Container(),
+                        ),
+                      )
+                    ],
+                  ),
+                  stretchTriggerOffset: widget.stretchTriggerOffset,
+                  onStretchTrigger: widget.fullyStretchable
+                      ? () async {
+                          if (!fullyExpanded) isFullyExpanded.add(true);
+                        }
+                      : null,
+                );
+              },
             );
           },
         ),
