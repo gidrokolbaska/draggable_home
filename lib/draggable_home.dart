@@ -84,12 +84,14 @@ class DraggableHome extends StatefulWidget {
 
   final ScrollPhysics? physics;
   final Widget? Function(bool isScrolled)? leadingBuilder;
+  final List<Widget>? Function(bool isScrolled)? trailingBuilder;
 
   /// This will create DraggableHome.
   const DraggableHome(
       {Key? key,
       this.leading,
-      this.leadingBuilder,
+      required this.leadingBuilder,
+      required this.trailingBuilder,
       this.leadingWidth,
       required this.title,
       this.centerTitle = true,
@@ -220,7 +222,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                           : widget.leading,
                   leadingWidth: widget.leadingWidth ?? 56,
                   actions: widget.alwaysShowLeadingAndAction
-                      ? widget.actions
+                      ? widget.trailingBuilder!(scrolled)
                       : !fullyCollapsed
                           ? []
                           : widget.actions,
