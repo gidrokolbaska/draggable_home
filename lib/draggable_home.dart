@@ -206,8 +206,7 @@ class _DraggableHomeState extends State<DraggableHome> {
 
             return SliverAppBar(
               automaticallyImplyLeading: false,
-              // backgroundColor:
-              //     !fullyCollapsed ? widget.backgroundColor : widget.appBarColor,
+              backgroundColor: widget.appBarColor,
               leading: widget.alwaysShowLeadingAndAction
                   ? widget.leading
                   : !fullyCollapsed
