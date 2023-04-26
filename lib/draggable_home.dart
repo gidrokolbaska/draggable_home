@@ -1,6 +1,5 @@
 library draggable_home;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -83,7 +82,6 @@ class DraggableHome extends StatefulWidget {
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   final ScrollPhysics? physics;
-  final ScrollController controller;
 
   /// This will create DraggableHome.
   const DraggableHome(
@@ -102,7 +100,6 @@ class DraggableHome extends StatefulWidget {
       this.appBarColor,
       this.curvedBodyRadius = 20,
       required this.body,
-      required this.controller,
       this.drawer,
       this.fullyStretchable = false,
       this.stretchTriggerOffset = 200,
@@ -177,7 +174,6 @@ class _DraggableHomeState extends State<DraggableHome> {
           fullyExpandedHeight,
           expandedHeight,
           topPadding,
-          widget.controller,
         ),
       ),
       bottomSheet: widget.bottomSheet,
@@ -194,11 +190,9 @@ class _DraggableHomeState extends State<DraggableHome> {
     double fullyExpandedHeight,
     double expandedHeight,
     double topPadding,
-    ScrollController controller,
   ) {
     return CustomScrollView(
       physics: widget.physics ?? const BouncingScrollPhysics(),
-      controller: controller,
       slivers: [
         StreamBuilder<List<bool>>(
           stream: CombineLatestStream.list<bool>([
@@ -241,33 +235,14 @@ class _DraggableHomeState extends State<DraggableHome> {
                   fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Stack(
                 children: [
-                  DecoratedBox(
-                    decoration: const BoxDecoration(
-                      // Box decoration takes a gradient
-                      gradient: LinearGradient(
-                        // Where the linear gradient begins and ends
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        // Add one stop for each color. Stops should increase from 0 to 1
-                        stops: [0, 0.33, 0.66, 1],
-                        colors: [
-                          // Colors are easy thanks to Flutter's Colors class.
-                          Color(0xff1F145D),
-                          Color(0xff6E50E1),
-                          Color(0xff50AFFF),
-                          Color(0xff28FC82),
-                        ],
-                      ),
-                    ),
-                    child: FlexibleSpaceBar(
-                      collapseMode: CollapseMode.none,
-                      stretchModes: const [StretchMode.zoomBackground],
-                      background: Container(
-                        margin: const EdgeInsets.only(bottom: 0.2),
-                        child: fullyExpanded
-                            ? (widget.expandedBody ?? const SizedBox())
-                            : widget.headerWidget,
-                      ),
+                  FlexibleSpaceBar(
+                    collapseMode: CollapseMode.none,
+                    stretchModes: const [StretchMode.zoomBackground],
+                    background: Container(
+                      margin: const EdgeInsets.only(bottom: 0.2),
+                      child: fullyExpanded
+                          ? (widget.expandedBody ?? const SizedBox())
+                          : widget.headerWidget,
                     ),
                   ),
                   Positioned(
